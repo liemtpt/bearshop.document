@@ -18,13 +18,15 @@ struct TAccount {
   14:string pageId,
   15:string permissionId,
   16:string expireTime,
-  17:string dateCreated,
-  18:string dateModified,
+  17:string createdAt,
+  18:string modifiedAt,
+  19:i32 userCreated,
+  20:i32 userModified,
 }
 
 struct TCart {
   1:i32 id,
-  2:i32 product_id,
+  2:i32 productId,
   3:string colors,
   4:string sizes,
   5:i32 quantity,
@@ -58,18 +60,18 @@ struct TPage {
   2:i32 parentId,
   3:string name,
   4:string link,
-  5:string linkAlias,
+  5:string aliasPage,
   6:i32 ordering,
-  7:string dateCreated,
-  8:string dateModified,
+  7:string createdAt,
+  8:string modifiedAt,
 }
 
 struct TPermission {
   1:i32 id,
   2:string name,
   3:string description,
-  4:string dateCreated,
-  5:string dateModified,
+  4:string createdAt,
+  5:string modifiedAt,
 }
 
 struct TProduct {
@@ -102,7 +104,7 @@ struct TProduct {
 
 struct TWishList {
   1:i32 id,
-  2:i32 product_id,
+  2:i32 productId,
   3:string colors,
   4:string sizes,
   5:i32 quantity,
@@ -199,18 +201,69 @@ service TShopService {
 	bool updateLastLoginAccount(1:string userName),
 	bool updateStatusAccount(1:string userName, 2:i32 status),
 	bool deleteAccount(1:i32 id),
-	//TAccountResult getLoginAccount(1:string userName, 2:string password),
-	//TAccountResult getAccountByUserName(1:string userName),
-	//TAccountListResult getListAccountPaging(1:string whereClause),
+	TAccountResult getLoginAccount(1:string userName, 2:string password),
+	TAccountResult getAccountByUserName(1:string userName),
+	TAccountListResult getListAccountPaging(1:string whereClause),
 	//TAccountListResult getListAccountByFilter(1:TAccountFilter filter),
 
 	//PAGE
 	bool insertPage(1:TPage value),
 	bool updatePage(1:TPage value),
 	bool deletePage(1:i32 id),
-	//TPageListResult getListByParentId(1:i32 parentId),
+	list<i32> getListPageByParentId(1:i32 parentId),
+  TPageResult getPageById(1:i32 id),
+  TPageListResult getListPagePaging(1:string whereClause),
 	//TPageListResult getListByPageIds(1:string pageIds),
 	//TPageListResult getListPageByFilter(1:TPageFilter filter),
+
+  // PERMISSION
+  bool insertPermission(1:TPermission value),
+  bool updatePermission(1:TPermission value),
+  bool deletePermission(1:i32 id),
+  TPermissionResult getPermissionById(1:i32 id),
+  TPermissionListResult getListPermissionPaging(1:string whereClause),
+  //TPermissionListResult getListPermissionByFilter(1:TPermissionFilter filter),
+
+  // CATEGORY
+  bool insertCategory(1:TCategory value),
+  bool updateCategory(1:TCategory value),
+  bool deleteCategory(1:i32 id),
+  TCategoryResult getCategoryById(1:i32 id),
+  TCategoryListResult getListCategoryPaging(1:string whereClause),
+  //TCategoryListResult getListCategoryByFilter(1:TCategoryFilter filter),
+
+  //PRODUCT
+  bool insertProduct(1:TProduct value),
+  bool updateProduct(1:TProduct value),
+  bool deleteProduct(1:i32 id),
+  TProductResult getProductById(1:i32 id),
+  TProductListResult getListProductPaging(1:string whereClause),
+  //TProductListResult getListProductByFilter(1:TProductFilter filter),
+
+  //CART
+  bool insertCart(1:TCart value),
+  bool updateCart(1:TCart value),
+  bool deleteCart(1:i32 id),
+  TCartResult getCartById(1:i32 id),
+  TCartListResult getListCartPaging(1:string whereClause),
+  //TCartListResult getListCartByFilter(1:TCartFilter filter),
+
+  //WISHLIST
+  bool insertWishList(1:TWishList value),
+  bool updateWishList(1:TWishList value),
+  bool deleteWishList(1:i32 id),
+  TWishListResult getWishListById(1:i32 id),
+  TWishListListResult getListWishListPaging(1:string whereClause),
+  //TWishListListResult getListWishListByFilter(1:TWishListFilter filter),
+
+  // TAG
+  //bool insertTag(1:TTag value),
+  //bool updateTag(1:TTag value),
+  //bool updateStatusTag(1:i32 status , 2:i32 id),
+  //bool deleteTag(1:i32 id),
+  //TTagResult getTagById(1:i32 id),
+  //TTagListResult getListTagPaging(1:string whereClause),
+  //TTagListResult getListTagByFilter(1:TTagFilter filter),
 
 	//ADVAND PERMISSION
 	list<i32> getListPermissionId(),
